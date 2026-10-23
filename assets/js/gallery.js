@@ -372,6 +372,14 @@
     return out;
   }
 
+  // the second line of a piece's label: edition · price (or Sold)
+  function placardLine(a) {
+    return details(
+      a.edition && editionLabel(a.edition),
+      a.available === 0 ? "Sold" : a.price != null ? money(a.price) : "Price on request"
+    );
+  }
+
   function initWall() {
     const wall = document.querySelector(".wall");
     const walk = document.querySelector(".walk");
@@ -392,6 +400,10 @@
                 <a class="piece" data-i="${i}" href="piece.html?id=${encodeURIComponent(a.id)}"
                    aria-label="${details(quote(a.title), a.year)}${a.available === 0 ? ", sold" : ""}. View piece">
                   ${hangHTML(a)}
+                  <span class="placard" aria-hidden="true">
+                    <em>${esc(quote(a.title))}</em>
+                    <span>${placardLine(a)}</span>
+                  </span>
                 </a>`;
               })
               .join("")}
@@ -563,8 +575,33 @@
       track(hang, piece);
       interceptLink(piece, () => hang);
       // the caption under the wall names whatever you're looking at
+      const placard = piece.querySelector(".placard");
+      // Hang the placard on whichever side of the piece is clear: below, then
+      // above, then to the right or left. Clear means not over another frame,
+      // the header, the caption at the bottom, or off the screen.
+      const SIDES = ["", "is-above", "is-right", "is-left"];
+      const placePlacard = () => {
+        const blockers = [...walk.querySelectorAll(".hang")]
+          .filter((x) => x !== hang)
+          .map((x) => x.getBoundingClientRect());
+        const head = document.querySelector(".wall-head .menu").getBoundingClientRect();
+        const tools = document.querySelector(".head-tools").getBoundingClientRect();
+        const sign = document.querySelector(".signature").getBoundingClientRect();
+        blockers.push(head, tools, sign);
+        const floorTop = document.querySelector(".trim").getBoundingClientRect().top;
+        const clear = (r) =>
+          r.left >= 8 && r.right <= viewW() - 8 && r.top >= 8 && r.bottom <= floorTop - 8 &&
+          !blockers.some((o) => r.left < o.right + 6 && r.right > o.left - 6 && r.top < o.bottom + 6 && r.bottom > o.top - 6);
+        for (const side of SIDES) {
+          SIDES.forEach((c) => c && placard.classList.remove(c));
+          if (side) placard.classList.add(side);
+          if (clear(placard.getBoundingClientRect())) return;
+        }
+        SIDES.forEach((c) => c && placard.classList.remove(c)); // nowhere is clear: below
+      };
       const show = () => {
-        hint.innerHTML = `<em>${esc(quote(a.title))}</em><span>${details(a.year, a.medium, a.edition && editionLabel(a.edition), a.available === 0 ? "Sold" : a.price != null ? money(a.price) : "Price on request")}</span>`;
+        if (finePointer) return placePlacard(); // the placard names the piece with a mouse
+        hint.innerHTML = `<em>${esc(quote(a.title))}</em><span>${placardLine(a)}</span>`;
         hint.classList.add("is-naming");
       };
       const hide = () => {
