@@ -89,7 +89,7 @@ module.exports = async function handler(req, res) {
   params.append("amount", String(Math.round(total * unit)));
   params.append("currency", currency);
   params.append("automatic_payment_methods[enabled]", "true");
-  params.append("description", `Ethan Craparo: ${order}`.slice(0, 1000));
+  params.append("description", `Ethan\u2019s Bicycle Shop: ${order}`.slice(0, 1000));
   params.append("metadata[order]", lines.map((l) => `${l.id} x${l.qty}`).join(", ").slice(0, 500));
   params.append("metadata[shipping]", `${shipping.label}: ${shipping.amount}`);
 
