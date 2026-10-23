@@ -1,0 +1,11 @@
+.env
+.env.local
+.env.*.local
+node_modules/
+.vercel/
+.DS_Store
+
+# reference photos used while designing; the site doesn't load them
+assets/floor-reference.png
+assets/wall-reference.png
+assets/wall-color-reference.webp

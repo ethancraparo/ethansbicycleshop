@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9cfc2"/><stop offset="1" stop-color="#bfb1a1"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  .12 0 0 0 0"/></filter>
+  </defs>
+  <rect width="300" height="400" fill="url(#bg)"/>
+  <g fill="#8c7b69">
+    <circle cx="150" cy="160" r="58"/>
+    <path d="M40 400 C48 290 100 248 150 248 S252 290 260 400Z"/>
+  </g>
+  <rect width="300" height="400" filter="url(#grain)"/>
+</svg>

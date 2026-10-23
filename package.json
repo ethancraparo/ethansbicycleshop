@@ -1,0 +1,11 @@
+{
+  "name": "ethans-bicycle-shop",
+  "private": true,
+  "description": "Ethan's Bicycle Shop: Ethan Craparo's gallery-wall art site, with on-site Stripe checkout.",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
