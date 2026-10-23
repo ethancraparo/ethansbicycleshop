@@ -3,6 +3,21 @@
   const root = document.documentElement;
   const room = document.querySelector(".room");
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // The page's own size. Unlike innerWidth/innerHeight, these stay put while
+  // someone pinch-zooms on a phone, so zooming in never re-sizes the art.
+  const viewW = () => document.documentElement.clientWidth;
+  const viewH = () => document.documentElement.clientHeight;
+  // run fn on a real resize (rotating the phone, resizing the window), not on zoom
+  function onLayoutResize(fn) {
+    let w = viewW(), h = viewH();
+    addEventListener("resize", () => {
+      if (viewW() === w && viewH() === h) return;
+      w = viewW();
+      h = viewH();
+      fn();
+    });
+  }
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const FRAME_CM = 4.8; // both sides of the frame moulding
@@ -185,8 +200,8 @@
 
   if (finePointer && !reduceMotion) {
     addEventListener("pointermove", (e) => {
-      scene.tx = (e.clientX / innerWidth) * 2 - 1;
-      scene.ty = (e.clientY / innerHeight) * 2 - 1;
+      scene.tx = (e.clientX / viewW()) * 2 - 1;
+      scene.ty = (e.clientY / viewH()) * 2 - 1;
       kick();
     });
     root.addEventListener("pointerleave", () => {
@@ -209,8 +224,8 @@
     if (finePointer) {
       area.addEventListener("pointermove", (e) => {
         const r = el.getBoundingClientRect();
-        const spanX = area === root ? innerWidth / 2 : r.width / 2;
-        const spanY = area === root ? innerHeight / 2 : r.height / 2;
+        const spanX = area === root ? viewW() / 2 : r.width / 2;
+        const spanY = area === root ? viewH() / 2 : r.height / 2;
         h.tx = clamp((e.clientX - (r.left + r.width / 2)) / spanX);
         h.ty = clamp((e.clientY - (r.top + r.height / 2)) / spanY);
         h.tl = 1;
@@ -222,7 +237,67 @@
       area.addEventListener("focus", () => { h.tl = 1; kick(); });
       area.addEventListener("blur", rest);
     }
+    touchTilt(h, area === root ? el : area, rest);
     return h;
+  }
+
+  // On a phone: press and hold a piece, then drag to tilt it toward your finger.
+  // A quick swipe still scrolls or walks the wall, two fingers still zoom, and
+  // letting go after tilting doesn't open the piece.
+  function touchTilt(h, target, rest) {
+    const HOLD_MS = 220;
+    let timer = 0;
+    let tilting = false;
+    let start = null;
+    const aim = (t) => {
+      const r = h.el.getBoundingClientRect();
+      h.tx = clamp((t.clientX - (r.left + r.width / 2)) / (r.width / 2));
+      h.ty = clamp((t.clientY - (r.top + r.height / 2)) / (r.height / 2));
+      h.tl = 1;
+      kick();
+    };
+    const stop = () => {
+      clearTimeout(timer);
+      timer = 0;
+      if (tilting) rest();
+      tilting = false;
+      target.classList.remove("is-tilting");
+    };
+    target.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length !== 1) return stop();
+        const t = e.touches[0];
+        start = { x: t.clientX, y: t.clientY };
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          tilting = true;
+          target.classList.add("is-tilting");
+          aim(start);
+        }, HOLD_MS);
+      },
+      { passive: true }
+    );
+    target.addEventListener(
+      "touchmove",
+      (e) => {
+        if (e.touches.length !== 1) return stop();
+        const t = e.touches[0];
+        if (tilting) {
+          e.preventDefault(); // the drag tilts the piece instead of scrolling
+          aim(t);
+        } else if (start && Math.hypot(t.clientX - start.x, t.clientY - start.y) > 8) {
+          clearTimeout(timer); // moved too soon: it's a scroll or swipe
+          timer = 0;
+        }
+      },
+      { passive: false }
+    );
+    target.addEventListener("touchend", (e) => {
+      if (tilting) e.preventDefault(); // no tap: letting go doesn't open the piece
+      stop();
+    });
+    target.addEventListener("touchcancel", stop);
   }
 
   /* ---------- Page transitions ---------- */
@@ -238,8 +313,8 @@
       const px = r.left + r.width / 2;
       const py = r.top + r.height / 2;
       room.style.transformOrigin = `${px}px ${py}px`;
-      const zoom = Math.max(1.8, Math.min(5, (innerHeight * 0.55) / r.height));
-      room.style.transform = `translate(${innerWidth / 2 - px}px, ${innerHeight / 2 - py}px) scale(${zoom})`;
+      const zoom = Math.max(1.8, Math.min(5, (viewH() * 0.55) / r.height));
+      room.style.transform = `translate(${viewW() / 2 - px}px, ${viewH() / 2 - py}px) scale(${zoom})`;
     }
     root.classList.add("is-leaving");
     setTimeout(() => (location.href = href), 720);
@@ -337,7 +412,7 @@
 
     // Hang each wall as its own salon cluster, sized to the screen.
     const hangWalls = () => {
-      const narrow = innerWidth <= 760;
+      const narrow = viewW() <= 760;
       const availW = walk.clientWidth * (narrow ? 0.84 : 0.64);
       const availH = wall.clientHeight * (narrow ? 0.62 : 0.6);
       bays.forEach((bay, n) => {
@@ -478,7 +553,7 @@
       onWalk();
     };
     layout();
-    addEventListener("resize", layout);
+    onLayoutResize(layout);
     hint.innerHTML = idleHint();
 
     walk.querySelectorAll(".piece").forEach((piece) => {
@@ -511,13 +586,13 @@
     const hang = stage.querySelector(".hang");
     const fit = () => {
       const s = outerSize(a);
-      const narrow = innerWidth <= 760;
-      const maxH = innerHeight * (narrow ? 0.4 : 0.5);
-      const maxW = innerWidth * (narrow ? 0.78 : 0.44);
+      const narrow = viewW() <= 760;
+      const maxH = viewH() * (narrow ? 0.4 : 0.5);
+      const maxW = viewW() * (narrow ? 0.78 : 0.44);
       hang.style.setProperty("--cm", `${Math.min(maxH / s.h, maxW / s.w)}px`);
     };
     fit();
-    addEventListener("resize", fit);
+    onLayoutResize(fit);
     track(hang, root, 0.25);
   }
 
@@ -1108,7 +1183,7 @@
     // so the grid never slides over the floorboards
     const fitRoom = () => {
       room.style.height = "";
-      room.style.height = `${Math.max(innerHeight, document.documentElement.scrollHeight)}px`;
+      room.style.height = `${Math.max(viewH(), document.documentElement.scrollHeight)}px`;
     };
     buttons.forEach((b) =>
       b.addEventListener("click", () => {
@@ -1118,7 +1193,7 @@
     );
     show("all");
     fitRoom();
-    addEventListener("resize", fitRoom);
+    onLayoutResize(fitRoom);
     grid.querySelectorAll("img").forEach((img) => img.addEventListener("load", fitRoom));
   }
 

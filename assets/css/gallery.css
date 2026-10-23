@@ -703,6 +703,11 @@ button { font-weight: inherit; }
   -webkit-tap-highlight-color: transparent;
 }
 .piece:hover, .piece:focus-visible { z-index: 2; }
+/* press-and-hold tilts the piece on phones, so no "save image" or link-preview
+   pop-up and no text selection while holding */
+.piece, .hang { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.art img { -webkit-user-drag: none; }
+.is-tilting { z-index: 3; }
 .piece:focus-visible .frame { outline: 2px solid var(--ink); outline-offset: 6px; }
 
 /* ---------- A hung, framed piece ---------- */
