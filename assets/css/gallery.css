@@ -216,21 +216,16 @@ button { font-weight: inherit; }
 
 .signature {
   margin: 0;
-  /* a hand-signed look, like a signature in the corner of a piece */
-  font-family: "Mrs Saint Delafield", var(--serif);
-  font-weight: 400;
-  -webkit-text-stroke: .5px currentColor;
-  font-size: clamp(40px, 4vw, 62px);
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(22px, 1.9vw, 30px);
   line-height: 1.2;
-  word-spacing: .18em;
-  padding-right: .15em;
+  letter-spacing: .01em;
   white-space: nowrap;
   color: var(--ink);
   text-decoration: none;
 }
 .signature a { color: inherit; text-decoration: none; }
-/* the script font sets a wide gap before the apostrophe; tuck it in */
-.sig-apos { margin-left: -.14em; margin-right: -.04em; }
 
 .wall-head > :first-child { justify-self: start; }
 
@@ -1373,7 +1368,7 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
   .wall-head { grid-template-columns: 1fr auto auto; gap: 1rem; }
   /* leave room above the art for the close button */
   [data-page="piece"] .detail { padding-top: calc(5vh + 144px); }
-  .signature { font-size: min(36px, 7.4vw); }
+  .signature { font-size: min(22px, 5.4vw); }
   .head-tools { gap: .7rem; }
   .menu { justify-self: end; }
   .cart-label { display: none; }
@@ -1427,7 +1422,7 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 /* the smallest phones (320–360px wide): a slightly tighter header */
 @media (max-width: 360px) {
   .wall-head { gap: .6rem; padding-left: 4.5vw; padding-right: 4.5vw; }
-  .signature { font-size: 6.6vw; }
+  .signature { font-size: 5vw; }
   .head-tools { gap: .35rem; }
   .menu-toggle { letter-spacing: .14em; }
 }
