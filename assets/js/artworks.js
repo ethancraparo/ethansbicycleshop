@@ -38,7 +38,6 @@ window.SHOP = {
 };
 
 // Details still to fill in are left blank (""), and the site skips them.
-// Prices are placeholders.
 window.ARTWORKS = [
   {
     id: "luck-of-the-draw",
@@ -47,7 +46,7 @@ window.ARTWORKS = [
     medium: "",
     size: "23 × 17.5 in",
     edition: "1/1",
-    price: 900,
+    price: 1000,
     available: 1,
     image: "assets/art/luck-of-the-draw.jpg",
     width: 40,
@@ -98,7 +97,7 @@ window.ARTWORKS = [
     medium: "",
     size: "11 × 17 in",
     edition: "1/6",
-    price: 900,
+    price: 600,
     available: 0,
     image: "assets/art/six-shooter-red.jpg",
     foil: "assets/art/six-shooter-foil.png",
@@ -116,7 +115,7 @@ window.ARTWORKS = [
     medium: "",
     size: "11 × 17 in",
     edition: "2/6",
-    price: 900,
+    price: 600,
     available: 1,
     image: "assets/art/six-shooter.jpg",
     foil: "assets/art/six-shooter-foil.png",
