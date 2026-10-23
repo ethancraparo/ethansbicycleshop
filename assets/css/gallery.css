@@ -29,7 +29,7 @@
   /* 1 cm of real artwork, on screen */
   --cm: min(.86vh, .4vw);
 
-  --serif: "Cormorant Garamond", Georgia, serif;
+  --serif: "Old Standard TT", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
