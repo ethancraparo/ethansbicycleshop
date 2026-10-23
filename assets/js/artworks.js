@@ -99,7 +99,7 @@ window.ARTWORKS = [
     size: "11 × 17 in",
     edition: "1/6",
     price: 900,
-    available: 1,
+    available: 0,
     image: "assets/art/six-shooter-red.jpg",
     foil: "assets/art/six-shooter-foil.png",
     width: 43.2,
