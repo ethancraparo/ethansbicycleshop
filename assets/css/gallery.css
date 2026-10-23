@@ -962,6 +962,29 @@ button { font-weight: inherit; }
 
 .wall-text { max-width: 30rem; }
 .wall-text .back { display: inline-block; margin-bottom: 3.5vh; }
+
+/* close a piece and return to the wall: a quiet round × in the top-right corner */
+.piece-close {
+  position: absolute;
+  /* just below the header's cart button, lined up with it on the right */
+  top: calc(5vh + 84px);
+  right: 5vw;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition: color .25s ease, border-color .25s ease, background .25s ease, transform .35s var(--ease);
+}
+.piece-close:hover, .piece-close:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--wall) 70%, transparent);
+  transform: rotate(90deg);
+}
+.piece-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
 .detail--solo { grid-template-columns: minmax(0, 34rem); justify-content: center; }
 .contact-list {
   display: grid;
@@ -1304,6 +1327,8 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
   :root { --floor-h: 10vh; }
   .wall-head { padding: 3.5vh 6vw; }
   .wall-head { grid-template-columns: 1fr auto auto; gap: 1rem; }
+  /* leave room above the art for the close button */
+  [data-page="piece"] .detail { padding-top: calc(5vh + 144px); }
   .signature { font-size: min(36px, 7.4vw); }
   .head-tools { gap: .7rem; }
   .menu { justify-self: end; }
