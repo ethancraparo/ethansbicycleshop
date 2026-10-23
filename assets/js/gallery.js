@@ -58,6 +58,7 @@
             ${a.mat ? `<div class="mat">${img}</div>` : img}
             <span class="glass"></span>
           </div>
+          ${a.available === 0 ? `<span class="sold-dot frame-dot" aria-hidden="true"></span>` : ""}
         </div>
       </div>`;
   }
@@ -391,7 +392,6 @@
                 <a class="piece" data-i="${i}" href="piece.html?id=${encodeURIComponent(a.id)}"
                    aria-label="${details(quote(a.title), a.year)}${a.available === 0 ? ", sold" : ""}. View piece">
                   ${hangHTML(a)}
-                  ${a.available === 0 ? `<span class="sold-dot" aria-hidden="true"></span>` : ""}
                 </a>`;
               })
               .join("")}
@@ -413,8 +413,9 @@
     // Hang each wall as its own salon cluster, sized to the screen.
     const hangWalls = () => {
       const narrow = viewW() <= 760;
-      const availW = walk.clientWidth * (narrow ? 0.84 : 0.64);
-      const availH = wall.clientHeight * (narrow ? 0.62 : 0.6);
+      // phones are narrow, so the art gets nearly the full width and more height
+      const availW = walk.clientWidth * (narrow ? 0.93 : 0.64);
+      const availH = wall.clientHeight * (narrow ? 0.7 : 0.6);
       bays.forEach((bay, n) => {
         const salon = bay.querySelector(".salon");
         const items = groups[n].idx.map((i) => works[i]);
@@ -1144,6 +1145,16 @@
     })();
   }
 
+  /* ---------- Pages that scroll ---------- */
+
+  // On every page but the wall, the room runs the page's whole length with the
+  // floor at the very end, so text never scrolls over the floorboards.
+  function fitRoom() {
+    if (!room || document.body.dataset.page === "wall") return;
+    room.style.height = "";
+    room.style.height = `${Math.max(viewH(), document.documentElement.scrollHeight)}px`;
+  }
+
   /* ---------- Archives: every piece, in a tidy grid ---------- */
 
   function initArchives() {
@@ -1179,12 +1190,6 @@
       buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
       count.textContent = `${n} ${n === 1 ? "piece" : "pieces"}`;
     };
-    // the wall runs the whole length of the page, with the floor at the very end,
-    // so the grid never slides over the floorboards
-    const fitRoom = () => {
-      room.style.height = "";
-      room.style.height = `${Math.max(viewH(), document.documentElement.scrollHeight)}px`;
-    };
     buttons.forEach((b) =>
       b.addEventListener("click", () => {
         show(b.dataset.filter);
@@ -1192,8 +1197,6 @@
       })
     );
     show("all");
-    fitRoom();
-    onLayoutResize(fitRoom);
     grid.querySelectorAll("img").forEach((img) => img.addEventListener("load", fitRoom));
   }
 
@@ -1225,5 +1228,9 @@
   initMenu();
   initCart();
   initTheme();
+  fitRoom();
+  onLayoutResize(fitRoom);
+  addEventListener("load", fitRoom);
+  if (window.ResizeObserver && page !== "wall") new ResizeObserver(fitRoom).observe(document.querySelector("main") || document.body);
   arrive();
 })();

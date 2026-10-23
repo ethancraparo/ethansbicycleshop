@@ -504,10 +504,17 @@ button { font-weight: inherit; }
   background: #c8372d;
   box-shadow: inset 0 -1px 1px rgba(0, 0, 0, .25), 0 1px 2px rgba(0, 0, 0, .4);
 }
-.piece > .sold-dot {
+/* on a hung piece, the dot sits just inside the frame's bottom-right corner,
+   on the white mat: always with its own piece, never hidden by a neighbour,
+   and it tilts with the frame */
+.frame-dot {
+  --dot: clamp(8px, calc(var(--cm) * 2.4), 12px);
   position: absolute;
-  right: 2px;
-  top: calc(100% + max(10px, 2.6 * var(--cm)));
+  right: calc(var(--fw) + var(--dot) * .7);
+  bottom: calc(var(--fw) + var(--dot) * .7);
+  width: var(--dot);
+  height: var(--dot);
+  transform: translateZ(1px);
 }
 
 /* price and add to cart on a piece page: one row, after the description */
@@ -1189,8 +1196,8 @@ button { font-weight: inherit; }
 
 /* ---------- Archives ---------- */
 
-[data-page="archives"] { overflow-y: auto; }
-[data-page="archives"] .room { position: absolute; bottom: auto; }
+body:not([data-page="wall"]) { overflow-y: auto; }
+body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 .archives {
   position: relative;
   z-index: 2;
@@ -1346,6 +1353,14 @@ button { font-weight: inherit; }
     gap: 7vh;
     padding: 14vh 8vw calc(var(--floor-h) + var(--trim-h) + 4vh);
   }
+}
+
+/* the smallest phones (320–360px wide): a slightly tighter header */
+@media (max-width: 360px) {
+  .wall-head { gap: .6rem; padding-left: 4.5vw; padding-right: 4.5vw; }
+  .signature { font-size: 6.6vw; }
+  .head-tools { gap: .35rem; }
+  .menu-toggle { letter-spacing: .14em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
