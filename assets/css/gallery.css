@@ -204,8 +204,8 @@ button { font-weight: inherit; }
   /* a formal copperplate script, stroked a touch heavier for presence */
   font-family: "Pinyon Script", var(--serif);
   font-weight: 400;
-  -webkit-text-stroke: .35px currentColor;
-  font-size: clamp(32px, 2.9vw, 46px);
+  -webkit-text-stroke: .9px currentColor;
+  font-size: clamp(26px, 3.7vw, 60px);
   line-height: 1.25;
   white-space: nowrap;
   color: var(--ink);
@@ -535,6 +535,12 @@ button { font-weight: inherit; }
   margin: 0;
   padding: 0;
   list-style: none;
+}
+/* between tablet and laptop widths, tighten the header so it all fits */
+@media (min-width: 761px) and (max-width: 1000px) {
+  .menu-list { gap: 1.6em; }
+  .menu-list a { letter-spacing: .16em; }
+  .head-tools { gap: 1.1rem; }
 }
 .menu-list a, .menu-toggle {
   font-family: var(--sans);
@@ -1402,7 +1408,7 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
   .wall-head { grid-template-columns: 1fr auto auto; gap: 1rem; }
   /* leave room above the art for the close button */
   [data-page="piece"] .detail { padding-top: calc(5vh + 144px); }
-  .signature { font-size: min(32px, 7.6vw); }
+  .signature { font-size: min(34px, 7.4vw); -webkit-text-stroke-width: .7px; }
   .head-tools { gap: .7rem; }
   .menu { justify-self: end; }
   .cart-label { display: none; }
@@ -1456,7 +1462,7 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 /* the smallest phones (320–360px wide): a slightly tighter header */
 @media (max-width: 360px) {
   .wall-head { gap: .6rem; padding-left: 4.5vw; padding-right: 4.5vw; }
-  .signature { font-size: 7vw; }
+  .signature { font-size: 6.8vw; }
   .head-tools { gap: .35rem; }
   .menu-toggle { letter-spacing: .14em; }
 }
