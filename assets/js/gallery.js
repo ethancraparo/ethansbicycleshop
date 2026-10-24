@@ -179,7 +179,6 @@
 
   /* ---------- Motion: smooth tilt that follows the cursor ---------- */
 
-  const scene = { x: 0, y: 0, tx: 0, ty: 0 };
   const hangs = [];
   let frame = 0;
 
@@ -197,9 +196,6 @@
         else o[key] = t;
       }
     };
-    step(scene, ["x", "y"], 0.06);
-    root.style.setProperty("--gx", scene.x.toFixed(4));
-    root.style.setProperty("--gy", scene.y.toFixed(4));
     for (const h of hangs) {
       step(h, ["x", "y", "l"], 0.12);
       h.el.style.setProperty("--hx", h.x.toFixed(4));
@@ -210,18 +206,6 @@
   }
   function kick() {
     if (!frame) frame = requestAnimationFrame(tick);
-  }
-
-  if (finePointer && !reduceMotion) {
-    addEventListener("pointermove", (e) => {
-      scene.tx = (e.clientX / viewW()) * 2 - 1;
-      scene.ty = (e.clientY / viewH()) * 2 - 1;
-      kick();
-    });
-    root.addEventListener("pointerleave", () => {
-      scene.tx = scene.ty = 0;
-      kick();
-    });
   }
 
   // Tilt one piece toward wherever the cursor is over `area`.
@@ -644,7 +628,8 @@
     };
     fit();
     onLayoutResize(fit);
-    track(hang, root, 0.25);
+    // only tilts while the cursor is over the piece itself
+    track(hang, hang, 0.25);
   }
 
   function initPiece() {

@@ -35,8 +35,6 @@
   --sans: "Alegreya Sans", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
-  --gx: 0;
-  --gy: 0;
   color-scheme: dark;
 }
 
@@ -273,7 +271,7 @@ button { font-weight: inherit; }
   background: none;
   color: var(--ink-soft);
   font-family: var(--sans);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: .22em;
   text-transform: uppercase;
   cursor: pointer;
@@ -541,12 +539,12 @@ button { font-weight: inherit; }
 /* between tablet and laptop widths, tighten the header so it all fits */
 @media (min-width: 761px) and (max-width: 1000px) {
   .menu-list { gap: 1.6em; }
-  .menu-list a { letter-spacing: .16em; }
+  .menu-list a { font-size: 11px; letter-spacing: .16em; }
   .head-tools { gap: 1.1rem; }
 }
 .menu-list a, .menu-toggle {
   font-family: var(--sans);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: .22em;
   text-transform: uppercase;
   text-decoration: none;
@@ -780,7 +778,7 @@ button { font-weight: inherit; }
   z-index: -1;
   background: var(--cast);
   transform:
-    translate(calc(4px + var(--lift) * 12px - var(--gx) * 6px), calc(10px + var(--lift) * 22px))
+    translate(calc(4px + var(--lift) * 12px - var(--hx) * 6px), calc(10px + var(--lift) * 22px))
     scale(calc(.985 + var(--lift) * .02));
   filter: blur(calc(9px + var(--lift) * 16px));
   opacity: calc(.5 - var(--lift) * .16);
@@ -803,8 +801,8 @@ button { font-weight: inherit; }
   transform-style: preserve-3d;
   transform:
     translateZ(calc(var(--depth) + var(--lift) * 44px))
-    rotateY(calc(var(--gx) * 2.5deg + var(--hx) * 9deg))
-    rotateX(calc(var(--gy) * -2deg + var(--hy) * -7deg));
+    rotateY(calc(var(--hx) * 9deg))
+    rotateX(calc(var(--hy) * -7deg));
   will-change: transform;
 }
 
@@ -957,7 +955,7 @@ button { font-weight: inherit; }
       rgba(255, 255, 255, 0) 66%),
     linear-gradient(rgba(214, 220, 232, .2), rgba(214, 220, 232, .2));
   background-size: 280% 100%, auto;
-  background-position: calc(50% - (var(--gx) + var(--hx)) * 60%) 0, 0 0;
+  background-position: calc(50% - var(--hx) * 60%) 0, 0 0;
   mix-blend-mode: screen;
   opacity: calc(.5 + var(--lift) * .5);
 }
@@ -993,7 +991,7 @@ button { font-weight: inherit; }
     inset 0 0 1px rgba(0, 0, 0, .5);
   background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, .26) 47%, rgba(255, 255, 255, .06) 54%, transparent 62%);
   background-size: 300% 100%;
-  background-position: calc(50% + (var(--gx) + var(--hx)) * 28%) 0;
+  background-position: calc(50% + var(--hx) * 28%) 0;
 }
 
 /* ---------- Page transitions ---------- */
