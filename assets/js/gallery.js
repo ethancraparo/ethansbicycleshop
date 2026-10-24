@@ -21,7 +21,20 @@
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const FRAME_CM = 4.8; // both sides of the frame moulding
-  const MAT_CM = 9; // both sides of the mat
+  const MAT_CM = 9; // both sides of the mat, when a piece has no framed size
+
+  // One side of a piece's mat, in cm. With a real framed size ("22 × 16 in"),
+  // the mat is whatever is left between the art and the frame moulding, so the
+  // piece hangs at its true framed size.
+  function matSide(a) {
+    if (!a.mat) return 0;
+    const m = String(a.framed || "").match(/([\d.]+)\s*[×x]\s*([\d.]+)\s*(in|cm)?/i);
+    if (!m) return MAT_CM / 2;
+    const unit = (m[3] || "in").toLowerCase() === "cm" ? 1 : 2.54;
+    const fw = parseFloat(m[1]) * unit, fh = parseFloat(m[2]) * unit;
+    const side = ((fw - a.width) / 2 + (fh - a.height) / 2) / 2 - FRAME_CM / 2;
+    return Math.max(0.6, side);
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -49,7 +62,7 @@
       : "";
     const img = `<span class="art"><img src="${esc(a.image)}" alt="${esc(a.title)}" draggable="false">${foil}</span>`;
     return `
-      <div class="hang" style="--w:${a.width};--h:${a.height}">
+      <div class="hang" style="--w:${a.width};--h:${a.height};--mat:${matSide(a).toFixed(2)}">
         <div class="cast"></div>
         <div class="piece-3d">
           <div class="frame frame--${esc(a.frame)}">
@@ -64,7 +77,7 @@
   }
 
   function outerSize(a) {
-    const extra = FRAME_CM + (a.mat ? MAT_CM : 0);
+    const extra = FRAME_CM + matSide(a) * 2;
     return { w: a.width + extra, h: a.height + extra };
   }
 

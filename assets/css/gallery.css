@@ -756,7 +756,7 @@ button { font-weight: inherit; }
 
 .hang {
   --fw: max(7px, calc(2.4 * var(--cm)));
-  --matw: calc(4.5 * var(--cm));
+  --matw: calc(var(--mat, 4.5) * var(--cm)); /* --mat: one side of the mat, in cm */
   --bevel: max(2px, calc(.3 * var(--cm)));
   --depth: max(6px, calc(2.2 * var(--cm)));
   --lift: 0;
