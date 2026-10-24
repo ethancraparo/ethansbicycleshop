@@ -667,8 +667,7 @@
     const renderBuy = () => {
       if (a.available === 0) {
         buy.innerHTML = `
-          <div class="buy-row"><p class="price"><span class="sold-dot" aria-hidden="true"></span>Sold</p></div>
-          <p class="buy-note">This piece has found a home. <a href="contact.html">Ask about similar work</a>.</p>`;
+          <div class="buy-row"><p class="price"><span class="sold-dot" aria-hidden="true"></span>Sold</p></div>`;
       } else if (a.price == null) {
         buy.innerHTML = `
           <div class="buy-row">

@@ -1091,18 +1091,17 @@ button { font-weight: inherit; }
   font-size: clamp(40px, 4.6vw, 72px);
   line-height: 1;
 }
-/* museum-label facts: one row per fact, with the edition set larger */
+/* museum-label facts: side by side, each label above its number, no rules */
 .facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem 2.6rem;
   margin: 0;
-  border-top: 1px solid var(--line-soft);
 }
 .facts div {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.5rem;
-  height: 3.4rem;
-  border-bottom: 1px solid var(--line-soft);
+  flex-direction: column;
+  gap: .5rem;
 }
 .facts dt {
   font-family: var(--label);
@@ -1119,8 +1118,14 @@ button { font-weight: inherit; }
   font-size: 22px;
   line-height: 1;
   color: var(--ink);
-  text-align: right;
+  white-space: nowrap;
   font-variant-numeric: lining-nums;
+}
+/* phones: keep the three side by side, spread across the width */
+@media (max-width: 760px) {
+  .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 1rem .8rem; }
+  .facts dt { font-size: 11px; }
+  .facts dd { font-size: 18px; }
 }
 .fact-num {
   font: inherit;
