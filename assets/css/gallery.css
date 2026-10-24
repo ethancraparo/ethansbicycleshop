@@ -1094,7 +1094,13 @@ button { font-weight: inherit; }
   line-height: 1;
 }
 /* on a piece page the shop's name stays the biggest lettering */
-[data-page="piece"] .wall-text h1 { font-size: clamp(30px, 2.8vw, 46px); }
+[data-page="piece"] .wall-text h1 {
+  font-size: clamp(30px, 2.8vw, 46px);
+  /* Old Standard has no bold italic, so the italic is thickened with a stroke */
+  -webkit-text-stroke: .045em currentColor;
+  paint-order: stroke fill;
+  letter-spacing: .01em;
+}
 /* museum-label facts: side by side, each label above its number, no rules */
 .facts {
   display: flex;
