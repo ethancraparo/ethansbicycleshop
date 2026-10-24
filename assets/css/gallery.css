@@ -1316,30 +1316,23 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
   font-size: clamp(40px, 4.2vw, 64px);
   line-height: 1;
 }
-.archives-count {
-  margin: 0;
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-}
-.archives-filter { display: flex; gap: 1.4rem; margin-left: auto; }
+/* All / Available / Sold: styled like the main menu, the current one just bolder */
+.archives-filter { display: flex; gap: 2.4em; margin-left: auto; }
 .archives-filter button {
-  padding: 6px 0;
+  padding: 8px 0;
   border: 0;
-  border-bottom: 1px solid transparent;
   background: none;
-  font: inherit;
-  font-size: 10.5px;
+  font-family: var(--sans);
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--ink-soft);
   cursor: pointer;
+  transition: color .25s ease;
 }
 .archives-filter button:hover { color: var(--ink); }
-.archives-filter button[aria-pressed="true"] { color: var(--ink); border-bottom-color: currentColor; }
+.archives-filter button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
 .archives-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));

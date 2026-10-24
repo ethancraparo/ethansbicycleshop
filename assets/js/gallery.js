@@ -1195,7 +1195,6 @@
 
   function initArchives() {
     const grid = document.querySelector(".archives-grid");
-    const count = document.querySelector(".archives-count");
     const buttons = [...document.querySelectorAll(".archives-filter button")];
     const status = (a) =>
       a.available === 0 ? `<span class="sold-dot" aria-hidden="true"></span>Sold` : a.price != null ? money(a.price) : "Price on request";
@@ -1216,15 +1215,11 @@
     grid.querySelectorAll("a").forEach((link) => interceptLink(link));
 
     const show = (filter) => {
-      let n = 0;
       grid.querySelectorAll(".arc-item").forEach((li) => {
         const sold = li.dataset.sold === "true";
-        const on = filter === "all" || (filter === "sold" ? sold : !sold);
-        li.hidden = !on;
-        if (on) n++;
+        li.hidden = !(filter === "all" || (filter === "sold" ? sold : !sold));
       });
       buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
-      count.textContent = `${n} ${n === 1 ? "piece" : "pieces"}`;
     };
     buttons.forEach((b) =>
       b.addEventListener("click", () => {
