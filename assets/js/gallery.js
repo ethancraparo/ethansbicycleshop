@@ -644,6 +644,7 @@
     showOnStage(a);
 
     document.querySelector(".wall-text").innerHTML = `
+      <a class="back" href="index.html">← Back to the wall</a>
       <h1>${esc(quote(a.title))}</h1>
       ${factsHTML(a)}
       <p class="desc">${esc(a.description)}</p>
@@ -659,15 +660,7 @@
         </a>
       </nav>`;
 
-    // a quiet × in the corner closes the piece and returns to the wall (so does Esc)
-    const close = document.createElement("a");
-    close.className = "piece-close";
-    close.href = "index.html";
-    close.setAttribute("aria-label", "Close and return to the wall");
-    close.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
-    document.querySelector(".detail").appendChild(close);
-    interceptLink(close);
-    document.querySelectorAll(".steps a").forEach((link) => interceptLink(link));
+    document.querySelectorAll(".wall-text .back, .steps a").forEach((link) => interceptLink(link));
 
     // price, availability and the add-to-cart button, kept in step with the cart
     const buy = document.querySelector(".buy");
