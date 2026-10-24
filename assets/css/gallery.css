@@ -1097,7 +1097,7 @@ button { font-weight: inherit; }
 [data-page="piece"] .wall-text h1 {
   font-size: clamp(30px, 2.8vw, 46px);
   /* Old Standard has no bold italic, so the italic is thickened with a stroke */
-  -webkit-text-stroke: .045em currentColor;
+  -webkit-text-stroke: .022em currentColor; /* no heavier than the logo */
   paint-order: stroke fill;
   letter-spacing: .01em;
 }

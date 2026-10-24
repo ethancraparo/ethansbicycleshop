@@ -644,7 +644,6 @@
     showOnStage(a);
 
     document.querySelector(".wall-text").innerHTML = `
-      <a class="back" href="index.html">← Back to the wall</a>
       <h1>${esc(quote(a.title))}</h1>
       ${factsHTML(a)}
       <p class="desc">${esc(a.description)}</p>
@@ -660,7 +659,7 @@
         </a>
       </nav>`;
 
-    document.querySelectorAll(".wall-text .back, .steps a").forEach((link) => interceptLink(link));
+    document.querySelectorAll(".steps a").forEach((link) => interceptLink(link));
 
     // price, availability and the add-to-cart button, kept in step with the cart
     const buy = document.querySelector(".buy");
