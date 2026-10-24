@@ -721,17 +721,37 @@
     const menu = document.querySelector(".menu");
     if (!menu) return;
     const toggle = menu.querySelector(".menu-toggle");
-    const head = menu.closest(".wall-head");
     const setOpen = (open) => {
       menu.classList.toggle("is-open", open);
-      // on phones the theme switch and cart live inside the open menu
-      if (head) head.classList.toggle("menu-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.textContent = open ? "Close" : "Menu";
     };
     toggle.addEventListener("click", () => setOpen(!menu.classList.contains("is-open")));
-    const cartButton = document.querySelector(".cart-button");
-    if (cartButton) cartButton.addEventListener("click", () => setOpen(false));
+
+    // On phones the light/dark switch and the cart are two more items in the
+    // menu, styled like the rest; they just press the header's own buttons.
+    const list = menu.querySelector(".menu-list");
+    const extra = (label, onClick) => {
+      const li = document.createElement("li");
+      li.className = "menu-extra";
+      li.innerHTML = `<button type="button"></button>`;
+      const b = li.firstChild;
+      b.textContent = label;
+      b.addEventListener("click", onClick);
+      list.appendChild(li);
+      return b;
+    };
+    extra("Cart", () => {
+      setOpen(false);
+      const c = document.querySelector(".cart-button");
+      if (c) c.click();
+    });
+    const themeText = () => (root.dataset.theme === "light" ? "Dark mode" : "Light mode");
+    const themeItem = extra(themeText(), () => {
+      const t = document.querySelector(".theme-toggle");
+      if (t) t.click();
+    });
+    addEventListener("themechange", () => (themeItem.textContent = themeText()));
     addEventListener("keydown", (e) => {
       if (e.key === "Escape" && menu.classList.contains("is-open")) setOpen(false);
     });
@@ -983,15 +1003,8 @@
     const button = document.querySelector(".theme-toggle");
     if (!button) return;
     const isLight = () => root.dataset.theme === "light";
-    // a text label too, shown only inside the phone menu
-    const text = document.createElement("span");
-    text.className = "theme-label";
-    text.setAttribute("aria-hidden", "true");
-    button.appendChild(text);
-    const label = () => {
+    const label = () =>
       button.setAttribute("aria-label", isLight() ? "Switch to the charcoal wall" : "Switch to the cream wall");
-      text.textContent = isLight() ? "Dark mode" : "Light mode";
-    };
 
     const swap = () => {
       if (isLight()) delete root.dataset.theme;
