@@ -1093,6 +1093,8 @@ button { font-weight: inherit; }
   font-size: clamp(40px, 4.6vw, 72px);
   line-height: 1;
 }
+/* on a piece page the shop's name stays the biggest lettering */
+[data-page="piece"] .wall-text h1 { font-size: clamp(30px, 2.8vw, 46px); }
 /* museum-label facts: side by side, each label above its number, no rules */
 .facts {
   display: flex;
