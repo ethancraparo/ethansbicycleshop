@@ -749,7 +749,10 @@
     const themeText = () => (root.dataset.theme === "light" ? "Dark mode" : "Light mode");
     const themeItem = extra(themeText(), () => {
       const t = document.querySelector(".theme-toggle");
-      if (t) t.click();
+      if (!t) return;
+      // once the wall has switched, close the menu
+      addEventListener("themechange", () => setOpen(false), { once: true });
+      t.click();
     });
     addEventListener("themechange", () => (themeItem.textContent = themeText()));
     addEventListener("keydown", (e) => {
