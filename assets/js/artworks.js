@@ -47,7 +47,7 @@ window.ARTWORKS = [
     year: "",
     medium: "",
     size: "20 × 16 in",
-    framed: "25 × 21 in",
+    framed: "24 × 20 in",
     edition: "1/1",
     price: 1000,
     available: 1,
