@@ -629,6 +629,9 @@ button { font-weight: inherit; }
   overscroll-behavior-x: contain;
 }
 .walk::-webkit-scrollbar { display: none; }
+/* one wall: nothing to walk to, so it stays put (a tilting frame near the
+   edge would otherwise make the wall scrollable by a few pixels) */
+.wall:not(.has-walls) .walk { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
 .is-dragging .walk { scroll-snap-type: none; cursor: grabbing; }
 .is-dragging .piece { pointer-events: none; }
 .bay {
