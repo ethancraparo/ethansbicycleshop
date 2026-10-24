@@ -714,7 +714,7 @@ button { font-weight: inherit; }
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 11px;
   /* just lettering on the wall, no card behind it */
   padding: 0;
   white-space: nowrap;
@@ -728,7 +728,8 @@ button { font-weight: inherit; }
   font-family: var(--serif);
   font-weight: 600;
   font-size: 21px;
-  line-height: 1.05;
+  line-height: 1.1;
+  letter-spacing: .01em;
   color: var(--ink);
 }
 /* edition and price: the same bold serif numbers as the piece page */
@@ -736,7 +737,8 @@ button { font-weight: inherit; }
   font-family: var(--serif);
   font-size: 15px;
   font-weight: 700;
-  letter-spacing: .02em;
+  letter-spacing: .07em;
+  word-spacing: .2em;
   text-transform: none;
   color: var(--ink-soft);
 }
