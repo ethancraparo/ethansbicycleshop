@@ -707,12 +707,12 @@ button { font-weight: inherit; }
 .placard {
   position: absolute;
   left: 50%;
-  top: calc(100% + 14px);
+  top: calc(100% + 24px);
   z-index: 4;
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   /* just lettering on the wall, no card behind it */
   padding: 0;
   white-space: nowrap;
@@ -736,10 +736,10 @@ button { font-weight: inherit; }
   text-transform: uppercase;
   color: var(--ink-soft);
 }
-.placard.is-above { top: auto; bottom: calc(100% + 14px); }
+.placard.is-above { top: auto; bottom: calc(100% + 24px); }
 .placard.is-right, .placard.is-left { top: auto; bottom: 0; transform: none; }
-.placard.is-right { left: calc(100% + 16px); }
-.placard.is-left { left: auto; right: calc(100% + 16px); }
+.placard.is-right { left: calc(100% + 28px); }
+.placard.is-left { left: auto; right: calc(100% + 28px); }
 @media (hover: hover) and (pointer: fine) {
   .placard { display: flex; }
   .piece:hover .placard,
