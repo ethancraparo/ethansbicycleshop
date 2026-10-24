@@ -19,7 +19,7 @@
   --error: #f0a59c;
   --cast: rgba(0, 0, 0, .85);
   /* how strongly the plaster shows (read by assets/js/wall.js) */
-  --wall-relief: .75;
+  --wall-relief: .45;
   --brass-hi: #f1dfae;
   --brass: #b8955a;
   --brass-lo: #6f5733;
@@ -54,7 +54,7 @@
   --error: #a8352a;
   --cast: rgba(58, 42, 26, .55);
   /* the same relief reads stronger on a pale wall, so it's eased to look alike */
-  --wall-relief: .42;
+  --wall-relief: .25;
   color-scheme: light;
 }
 
