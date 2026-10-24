@@ -1398,7 +1398,9 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
   :root { --floor-h: 10vh; }
   .wall-head { padding: 3.5vh 6vw; }
   .wall-head { gap: 1rem; }
-  .signature { font-size: min(34px, 7.4vw); -webkit-text-stroke-width: .7px; }
+  .signature { font-size: min(34px, 8vw); -webkit-text-stroke-width: .7px; }
+  /* the shop's name stays the biggest lettering on a piece page */
+  [data-page="piece"] .wall-text h1 { font-size: 26px; }
   /* just the name and MENU across the top; light/dark and the cart are menu items */
   .wall-head { grid-template-columns: 1fr auto; }
   .head-tools { display: none; }
@@ -1462,7 +1464,8 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 /* the smallest phones (320–360px wide): a slightly tighter header */
 @media (max-width: 360px) {
   .wall-head { gap: .6rem; padding-left: 4.5vw; padding-right: 4.5vw; }
-  .signature { font-size: 6.8vw; }
+  .signature { font-size: 7.6vw; }
+  [data-page="piece"] .wall-text h1 { font-size: 22px; }
   .menu-toggle { letter-spacing: .14em; }
 }
 
