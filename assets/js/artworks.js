@@ -11,6 +11,8 @@
   price           in SHOP.currency, whole units (e.g. 850). Leave out for "price on request"
   available       copies left to sell: 1 for an unsold original, 0 when sold,
                   or e.g. 2 for an edition with two prints left
+  size            the art's size as shown on its page, e.g. "20 × 16 in"
+  framed          optional: the whole framed size, e.g. "25 × 21 in"
   width / height  real-world size of the image area in cm (sets how big it hangs)
   frame           "walnut" | "black" | "oak" | "white" | "gold" | "pink"
   mat             true adds a cream mat board around the image
@@ -44,13 +46,14 @@ window.ARTWORKS = [
     title: "Luck of the Draw",
     year: "",
     medium: "",
-    size: "23 × 17.5 in",
+    size: "20 × 16 in",
+    framed: "25 × 21 in",
     edition: "1/1",
     price: 1000,
     available: 1,
     image: "assets/art/luck-of-the-draw.jpg",
-    width: 40,
-    height: 30.8,
+    width: 50.8,
+    height: 40.6,
     frame: "oak",
     mat: true,
     description:

@@ -839,6 +839,7 @@
     const rows = [
       ["Edition", edition, "fact-edition"],
       ["Size", a.size && esc(a.size)],
+      ["Framed", a.framed && esc(a.framed)],
       ["Medium", a.medium && esc(a.medium)],
       ["Year", a.year && esc(a.year)],
     ].filter((r) => r[1]);
