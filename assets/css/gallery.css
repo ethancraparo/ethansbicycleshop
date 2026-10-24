@@ -764,6 +764,7 @@ button { font-weight: inherit; }
 .hang {
   --fw: max(7px, calc(2.4 * var(--cm)));
   --matw: calc(4.5 * var(--cm));
+  --bevel: max(2px, calc(.3 * var(--cm)));
   --depth: max(6px, calc(2.2 * var(--cm)));
   --lift: 0;
   --hx: 0;
@@ -784,6 +785,18 @@ button { font-weight: inherit; }
     scale(calc(.985 + var(--lift) * .02));
   filter: blur(calc(9px + var(--lift) * 16px));
   opacity: calc(.5 - var(--lift) * .16);
+}
+/* and the tight shadow right where the frame sits against the wall */
+.hang::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--cast);
+  transform: translate(1px, 3px);
+  filter: blur(3px);
+  opacity: calc(.5 - var(--lift) * .5);
+  pointer-events: none;
 }
 
 .piece-3d {
@@ -816,9 +829,30 @@ button { font-weight: inherit; }
   background:
     linear-gradient(var(--stain), var(--stain)),
     linear-gradient(var(--wash), var(--wash)),
-    linear-gradient(180deg, rgba(255, 244, 226, .16) 0, rgba(255, 244, 226, 0) var(--fw),
-      rgba(0, 0, 0, 0) calc(100% - var(--fw)), rgba(0, 0, 0, .2) 100%),
+    var(--profile-t) 0 0 / 100% var(--fw) no-repeat,
+    var(--profile-b) 0 100% / 100% var(--fw) no-repeat,
     var(--grain-h) 0 0 / 600px auto repeat;
+}
+/* The moulding's profile, lit from above: a rounded outer edge, a flat face, a
+   shallow cove, then the lip that steps down to the mat. Each rail runs from its
+   outer edge (0) to its inner edge (100%). */
+.frame {
+  --hi: rgba(255, 246, 228, .4);
+  --lo: rgba(0, 0, 0, .2);
+  --profile-t: linear-gradient(180deg,
+    rgba(0, 0, 0, .18) 0, var(--hi) 7%, rgba(255, 246, 228, .1) 22%, rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, .04) 62%, rgba(0, 0, 0, .22) 82%, rgba(255, 246, 228, .24) 90%, rgba(0, 0, 0, .32) 100%);
+  --profile-b: linear-gradient(0deg,
+    rgba(0, 0, 0, .34) 0, rgba(0, 0, 0, .2) 9%, rgba(0, 0, 0, .1) 24%, rgba(0, 0, 0, .04) 42%,
+    rgba(0, 0, 0, 0) 66%, rgba(255, 246, 228, .12) 80%, rgba(255, 246, 228, .3) 90%, rgba(0, 0, 0, .25) 100%);
+  --profile-l: linear-gradient(90deg,
+    rgba(0, 0, 0, .14) 0, rgba(255, 246, 228, .3) 7%, rgba(255, 246, 228, .08) 22%, rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, .04) 62%, rgba(0, 0, 0, .2) 82%, rgba(255, 246, 228, .18) 90%, rgba(0, 0, 0, .3) 100%);
+  --profile-r: linear-gradient(270deg,
+    rgba(0, 0, 0, .3) 0, rgba(0, 0, 0, .16) 9%, rgba(0, 0, 0, .1) 24%, rgba(0, 0, 0, .06) 42%,
+    rgba(0, 0, 0, .04) 66%, rgba(255, 246, 228, .06) 80%, rgba(255, 246, 228, .2) 90%, rgba(0, 0, 0, .28) 100%);
+  /* the hairline seam where two lengths of moulding are mitred together */
+  --seam: rgba(30, 18, 6, .45);
 }
 .frame--oak, .frame--walnut {
   --grain: .45; /* how much of the wood grain shows through: 1 = full photo, 0 = flat colour */
@@ -842,9 +876,10 @@ button { font-weight: inherit; }
   background:
     linear-gradient(var(--stain), var(--stain)),
     linear-gradient(var(--wash), var(--wash)),
-    linear-gradient(90deg, rgba(255, 244, 226, .12), rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .12)),
+    linear-gradient(to top right, transparent calc(50% - 1px), var(--seam) 50%, transparent calc(50% + .6px)) 0 0 / var(--fw) var(--fw) no-repeat,
+    linear-gradient(to bottom right, transparent calc(50% - 1px), var(--seam) 50%, transparent calc(50% + .6px)) 0 100% / var(--fw) var(--fw) no-repeat,
+    var(--profile-l),
     var(--grain-v) 0 0 / auto 600px repeat;
-  box-shadow: inset 1px 0 0 rgba(0, 0, 0, .35);
 }
 .frame--oak::after, .frame--walnut::after {
   right: 0;
@@ -852,9 +887,10 @@ button { font-weight: inherit; }
   background:
     linear-gradient(var(--stain), var(--stain)),
     linear-gradient(var(--wash), var(--wash)),
-    linear-gradient(90deg, rgba(0, 0, 0, .14), rgba(0, 0, 0, .06) 60%, rgba(0, 0, 0, .18)),
+    linear-gradient(to bottom right, transparent calc(50% - .6px), var(--seam) 50%, transparent calc(50% + 1px)) 0 0 / var(--fw) var(--fw) no-repeat,
+    linear-gradient(to top right, transparent calc(50% - .6px), var(--seam) 50%, transparent calc(50% + 1px)) 0 100% / var(--fw) var(--fw) no-repeat,
+    var(--profile-r),
     var(--grain-v) 0 300px / auto 600px repeat;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .35);
 }
 
 .frame--black {
@@ -881,9 +917,12 @@ button { font-weight: inherit; }
 .side--l { top: 0; bottom: 0; left: 0; width: var(--depth); transform-origin: left; transform: rotateY(90deg); filter: brightness(1.1); }
 .side--r { top: 0; bottom: 0; right: 0; width: var(--depth); transform-origin: right; transform: rotateY(-90deg); filter: brightness(.85); }
 
+/* museum mat board: a faint paper tooth, a touch brighter toward the top */
 .mat {
-  padding: var(--matw);
-  background: #f5f2e9;
+  padding: calc(var(--matw) - var(--bevel));
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .4 0 0 0 0 .33 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #f8f5ee, #f1ede3);
 }
 .art {
   position: relative;
@@ -935,11 +974,12 @@ button { font-weight: inherit; }
   to { background-position: -10% 0, 0 0; }
 }
 
-/* bevel-cut edge of the mat */
+/* the mat's 45° bevel-cut window: the white core shows, the bottom bevel faces
+   the light and the top one is in the frame's shade */
 .mat .art {
-  box-shadow:
-    0 0 0 max(2px, calc(.3 * var(--cm))) #fcfbf7,
-    0 0 0 calc(max(2px, calc(.3 * var(--cm))) + 1px) rgba(0, 0, 0, .08);
+  border: var(--bevel) solid;
+  border-color: #e4dfd3 #f4f1ea #fffefb #eeeae1;
+  box-shadow: 0 0 0 1px rgba(60, 45, 25, .07);
 }
 
 /* glass: the frame's inner shadow plus a moving reflection */
@@ -947,7 +987,11 @@ button { font-weight: inherit; }
   position: absolute;
   inset: var(--fw);
   pointer-events: none;
-  box-shadow: inset 2px 3px 8px rgba(0, 0, 0, .3), inset 0 0 1px rgba(0, 0, 0, .45);
+  /* the frame's lip stands proud of the mat, so it shades the mat below and beside it */
+  box-shadow:
+    inset 0 max(2px, calc(.4 * var(--cm))) max(5px, calc(1.1 * var(--cm))) rgba(0, 0, 0, .3),
+    inset max(1px, calc(.2 * var(--cm))) 0 max(4px, calc(.8 * var(--cm))) rgba(0, 0, 0, .14),
+    inset 0 0 1px rgba(0, 0, 0, .5);
   background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, .26) 47%, rgba(255, 255, 255, .06) 54%, transparent 62%);
   background-size: 300% 100%;
   background-position: calc(50% + (var(--gx) + var(--hx)) * 28%) 0;
