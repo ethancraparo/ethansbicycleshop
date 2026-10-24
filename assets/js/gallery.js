@@ -1049,7 +1049,7 @@
         colorTextPlaceholder: v("--ink-faint"),
         colorDanger: v("--error"),
         colorIcon: v("--ink-soft"),
-        fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+        fontFamily: "'Alegreya Sans', system-ui, -apple-system, sans-serif",
         fontSizeBase: "15px",
         fontWeightNormal: "500",
         borderRadius: "0px",
@@ -1168,7 +1168,7 @@
       const elements = stripe.elements({
         clientSecret: data.clientSecret,
         appearance: stripeAppearance(),
-        fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" }],
+        fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700&display=swap" }],
       });
       elements
         .create("address", { mode: "shipping", allowedCountries: shop.shipTo, fields: { phone: "always" }, validation: { phone: { required: "always" } } })
