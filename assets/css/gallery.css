@@ -546,11 +546,12 @@ button { font-weight: inherit; }
 .menu-list a {
   display: inline-block;
   padding: 8px 0;
-  border-bottom: 1px solid transparent;
-  transition: color .25s ease, border-color .25s ease;
+  font-weight: 500;
+  transition: color .25s ease;
 }
-.menu-list a:hover { color: var(--ink); border-color: currentColor; }
-.menu-list a[aria-current] { color: var(--ink); border-color: var(--line); }
+.menu-list a:hover { color: var(--ink); }
+/* the page you're on: just bolder, no underline */
+.menu-list a[aria-current] { color: var(--ink); font-weight: 700; }
 .menu-toggle {
   display: none;
   position: relative;
