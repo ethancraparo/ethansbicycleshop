@@ -243,6 +243,7 @@ button { font-weight: inherit; }
   transition: color .25s ease;
 }
 .theme-toggle:hover { color: var(--ink); }
+.theme-label { display: none; }
 .theme-toggle svg {
   width: 18px;
   height: 18px;
@@ -1395,11 +1396,42 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 @media (max-width: 760px) {
   :root { --floor-h: 10vh; }
   .wall-head { padding: 3.5vh 6vw; }
-  .wall-head { grid-template-columns: 1fr auto auto; gap: 1rem; }
+  .wall-head { gap: 1rem; }
   .signature { font-size: min(34px, 7.4vw); -webkit-text-stroke-width: .7px; }
-  .head-tools { gap: .7rem; }
+  /* just the name and MENU across the top; the theme switch and cart wait
+     inside the menu, along its bottom */
+  .wall-head { grid-template-columns: 1fr auto; }
+  .head-tools {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(max(28px, 8vh) + env(safe-area-inset-bottom, 0px));
+    justify-self: stretch;
+    z-index: 2;
+    justify-content: center;
+    gap: 2.8rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s;
+  }
+  .wall-head.menu-open .head-tools { opacity: 1; visibility: visible; }
+  .head-tools .theme-toggle, .head-tools .cart-button {
+    display: flex;
+    align-items: center;
+    gap: .7em;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 10px 0;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .head-tools .theme-label { display: inline; }
   .menu { justify-self: end; }
-  .cart-label { display: none; }
   .menu-toggle { display: block; }
   .menu-list {
     position: fixed;
@@ -1451,7 +1483,6 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 @media (max-width: 360px) {
   .wall-head { gap: .6rem; padding-left: 4.5vw; padding-right: 4.5vw; }
   .signature { font-size: 6.8vw; }
-  .head-tools { gap: .35rem; }
   .menu-toggle { letter-spacing: .14em; }
 }
 
