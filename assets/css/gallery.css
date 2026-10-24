@@ -29,7 +29,9 @@
   /* 1 cm of real artwork, on screen */
   --cm: min(.86vh, .4vw);
 
-  --serif: "Old Standard TT", Georgia, serif;
+  --serif: "Old Standard TT", Georgia, serif; /* titles, headings, numbers */
+  --text: "Alegreya", Georgia, serif; /* paragraphs: descriptions, bios, notes */
+  --label: "Libre Caslon Text", Georgia, serif; /* the Edition / Size / Framed labels */
   --sans: "Alegreya Sans", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
@@ -1082,7 +1084,8 @@ button { font-weight: inherit; }
 }
 .contact-list dd {
   margin: 0;
-  font-family: var(--serif);
+  font-family: var(--text);
+  font-weight: 500;
   font-size: clamp(20px, 1.6vw, 24px);
 }
 .contact-list a {
@@ -1114,10 +1117,12 @@ button { font-weight: inherit; }
   border-bottom: 1px solid var(--line-soft);
 }
 .facts dt {
-  font-size: 10.5px;
-  letter-spacing: .22em;
+  font-family: var(--label);
+  font-weight: 400;
+  font-size: 12.5px;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 .facts dd {
   margin: 0;
@@ -1135,7 +1140,8 @@ button { font-weight: inherit; }
 .fact-slash { margin: 0 .1em; color: var(--ink-faint); }
 .desc {
   margin: 1.4em 0 0;
-  font-family: var(--serif);
+  font-family: var(--text);
+  font-weight: 500;
   font-size: clamp(18px, 1.35vw, 21px);
   line-height: 1.55;
   color: var(--ink-soft);
@@ -1230,7 +1236,7 @@ button { font-weight: inherit; }
 }
 .co-meta { font-size: 12px; letter-spacing: .04em; color: var(--ink-faint); }
 .co-price { font-family: var(--serif); font-size: 20px; color: var(--ink); white-space: nowrap; }
-.co-empty { padding: 1.6rem 0; font-family: var(--serif); font-size: 21px; color: var(--ink-soft); }
+.co-empty { padding: 1.6rem 0; font-family: var(--text); font-weight: 500; font-size: 21px; color: var(--ink-soft); }
 .co-empty a { color: var(--ink); }
 
 .co-totals { margin: 1.4rem 0 0; }
