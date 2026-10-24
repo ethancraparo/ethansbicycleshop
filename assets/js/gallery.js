@@ -472,7 +472,7 @@
     // which wall you're standing at, and the walk between them
     let current = 0;
     const idleHint = () => {
-      if (!many) return "Choose a piece to step closer";
+      if (!many) return "";
       const how = finePointer ? "use the arrows to walk to the next wall" : "swipe for the next wall";
       return `${esc(wallName(groups[current], current))} · ${how}`;
     };
