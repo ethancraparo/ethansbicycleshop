@@ -979,7 +979,8 @@ button { font-weight: inherit; }
   box-shadow: 0 0 0 1px rgba(60, 45, 25, .07);
 }
 
-/* glass: the frame's inner shadow plus a moving reflection */
+/* glass: the frame's inner shadow, plus a reflection that only catches the
+   light while the piece is lifted toward you (hovered or held) */
 .glass {
   position: absolute;
   inset: var(--fw);
@@ -989,9 +990,16 @@ button { font-weight: inherit; }
     inset 0 max(2px, calc(.4 * var(--cm))) max(5px, calc(1.1 * var(--cm))) rgba(0, 0, 0, .3),
     inset max(1px, calc(.2 * var(--cm))) 0 max(4px, calc(.8 * var(--cm))) rgba(0, 0, 0, .14),
     inset 0 0 1px rgba(0, 0, 0, .5);
+}
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, .26) 47%, rgba(255, 255, 255, .06) 54%, transparent 62%);
   background-size: 300% 100%;
   background-position: calc(50% + var(--hx) * 28%) 0;
+  /* none at rest (a piece page rests slightly lifted, at .25), full when lifted */
+  opacity: clamp(0, (var(--lift) - .25) / .75, 1);
 }
 
 /* ---------- Page transitions ---------- */
