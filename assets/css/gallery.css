@@ -1306,7 +1306,14 @@ button { font-weight: inherit; }
 /* ---------- Archives ---------- */
 
 body:not([data-page="wall"]) { overflow-y: auto; }
-body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
+body:not([data-page="wall"]) .room { position: absolute; bottom: auto; overflow: clip; perspective: 1000px; }
+/* On a page that scrolls, zooming the room itself on arrival pokes past the
+   page's end and flashes a scrollbar, nudging everything sideways. So the room
+   holds still and the wall, baseboard and floor inside it make the same 1.03
+   zoom about its centre (29px toward a 1000px perspective), clipped to it. */
+body:not([data-page="wall"]) .room > * { transition: transform .9s var(--ease); }
+.is-entering body:not([data-page="wall"]) .room { transform: none; }
+.is-entering body:not([data-page="wall"]) .room > * { transform: translateZ(29px); }
 .archives {
   position: relative;
   z-index: 2;
@@ -1476,6 +1483,7 @@ body:not([data-page="wall"]) .room { position: absolute; bottom: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .room, .stage, .veil { transition: none !important; }
-  .is-entering .room, .is-entering .stage { transform: none; }
+  .room, .room > *, .stage, .veil { transition: none !important; }
+  .is-entering .room, .is-entering .stage,
+  .is-entering body:not([data-page="wall"]) .room > * { transform: none; }
 }
