@@ -1170,8 +1170,6 @@ button { font-weight: inherit; }
 /* on piece pages: a small Previous / Next label over the neighbour's title */
 .steps:has(.step-title) {
   margin-top: 3.2rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid var(--line-soft);
 }
 .steps a:has(.step-title) { display: flex; flex-direction: column; gap: 6px; border-bottom: 0; }
 .steps .next:has(.step-title) { align-items: flex-end; }
