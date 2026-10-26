@@ -425,6 +425,8 @@
       // phones are narrow, so the art gets nearly the full width and more height
       const availW = walk.clientWidth * (narrow ? 0.93 : 0.64);
       const availH = wall.clientHeight * (narrow ? 0.7 : 0.6);
+      // a wall with no size yet (e.g. a tab still opening) can't be hung; the resize re-hangs it
+      if (!(availW > 0 && availH > 0)) return;
       bays.forEach((bay, n) => {
         const salon = bay.querySelector(".salon");
         const items = groups[n].idx.map((i) => works[i]);
