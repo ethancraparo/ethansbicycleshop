@@ -1306,11 +1306,15 @@ button { font-weight: inherit; }
 /* ---------- Archives ---------- */
 
 body:not([data-page="wall"]) { overflow-y: auto; }
+/* only the home wall stands on a floor; every other page is wall all the way down */
+body:not([data-page="wall"]) { --floor-h: 0px; --trim-h: 0px; }
+body:not([data-page="wall"]) .trim,
+body:not([data-page="wall"]) .floor { display: none; }
 body:not([data-page="wall"]) .room { position: absolute; bottom: auto; overflow: clip; perspective: 1000px; }
 /* On a page that scrolls, zooming the room itself on arrival pokes past the
    page's end and flashes a scrollbar, nudging everything sideways. So the room
-   holds still and the wall, baseboard and floor inside it make the same 1.03
-   zoom about its centre (29px toward a 1000px perspective), clipped to it. */
+   holds still and the wall inside it makes the same 1.03 zoom about its centre
+   (29px toward a 1000px perspective), clipped to it. */
 body:not([data-page="wall"]) .room > * { transition: transform .9s var(--ease); }
 .is-entering body:not([data-page="wall"]) .room { transform: none; }
 .is-entering body:not([data-page="wall"]) .room > * { transform: translateZ(29px); }

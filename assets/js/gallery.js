@@ -1211,8 +1211,8 @@
 
   /* ---------- Pages that scroll ---------- */
 
-  // On every page but the wall, the room runs the page's whole length with the
-  // floor at the very end, so text never scrolls over the floorboards.
+  // On every page but the wall, the room runs the page's whole length, so the
+  // wall stays behind the text however far it scrolls.
   function fitRoom() {
     if (!room || document.body.dataset.page === "wall") return;
     room.style.height = "";
