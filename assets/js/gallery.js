@@ -23,16 +23,16 @@
   const FRAME_CM = 4.8; // both sides of the frame moulding
   const MAT_CM = 9; // both sides of the mat, when a piece has no framed size
 
-  // One side of a piece's mat, in cm. With a real framed size ("22 × 16 in"),
-  // the mat is whatever is left between the art and the frame moulding, so the
-  // piece hangs at its true framed size.
+  // One side of a piece's mat, in cm. A framed size ("22 × 16 in") is the size
+  // the frame is sold as, which is the mat's outer edge, so the mat fills the
+  // whole gap between the art and that size and the moulding sits outside it.
   function matSide(a) {
     if (!a.mat) return 0;
     const m = String(a.framed || "").match(/([\d.]+)\s*[×x]\s*([\d.]+)\s*(in|cm)?/i);
     if (!m) return MAT_CM / 2;
     const unit = (m[3] || "in").toLowerCase() === "cm" ? 1 : 2.54;
     const fw = parseFloat(m[1]) * unit, fh = parseFloat(m[2]) * unit;
-    const side = ((fw - a.width) / 2 + (fh - a.height) / 2) / 2 - FRAME_CM / 2;
+    const side = ((fw - a.width) / 2 + (fh - a.height) / 2) / 2;
     return Math.max(0.6, side);
   }
 

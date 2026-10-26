@@ -12,7 +12,8 @@
   available       copies left to sell: 1 for an unsold original, 0 when sold,
                   or e.g. 2 for an edition with two prints left
   size            the art's size as shown on its page, e.g. "20 × 16 in"
-  framed          optional: the whole framed size, e.g. "25 × 21 in"
+  framed          optional: the frame's size, e.g. "25 × 21 in" (the size it's sold
+                  as, i.e. the mat's outer edge; the moulding sits outside it)
   width / height  real-world size of the image area in cm (sets how big it hangs)
   frame           "walnut" | "black" | "oak" | "white" | "gold" | "pink"
   mat             true adds a cream mat board around the image
