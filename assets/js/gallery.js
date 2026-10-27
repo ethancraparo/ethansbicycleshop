@@ -377,11 +377,17 @@
     );
   }
 
-  function initWall() {
+  // Hangs `list` salon-style: the whole collection on the home wall, only the
+  // sold pieces on the archive.
+  function initWall(list) {
     const wall = document.querySelector(".wall");
     const walk = document.querySelector(".walk");
     const hint = document.querySelector(".hint");
-    const groups = wallGroups(works);
+    if (!list.length) {
+      hint.textContent = "Nothing here yet.";
+      return;
+    }
+    const groups = wallGroups(list);
     const many = groups.length > 1;
     const wallName = (g, n) => g.name || `Wall ${n + 1} of ${groups.length}`;
 
@@ -392,7 +398,7 @@
           <div class="salon">
             ${g.idx
               .map((i) => {
-                const a = works[i];
+                const a = list[i];
                 return `
                 <a class="piece" data-i="${i}" href="piece.html?id=${encodeURIComponent(a.id)}"
                    aria-label="${details(quote(a.title), a.year)}${a.available === 0 ? ", sold" : ""}. View piece">
@@ -429,7 +435,7 @@
       if (!(availW > 0 && availH > 0)) return;
       bays.forEach((bay, n) => {
         const salon = bay.querySelector(".salon");
-        const items = groups[n].idx.map((i) => works[i]);
+        const items = groups[n].idx.map((i) => list[i]);
         const { spots, width, height } = salonLayout(items, availW / availH, (window.HANG_SEED || 7) + n);
         salon.style.setProperty("--sw", width);
         salon.style.setProperty("--sh", height);
@@ -570,7 +576,7 @@
 
     walk.querySelectorAll(".piece").forEach((piece) => {
       const hang = piece.querySelector(".hang");
-      const a = works[+piece.dataset.i];
+      const a = list[+piece.dataset.i];
       track(hang, piece);
       interceptLink(piece, () => hang);
       // the caption under the wall names whatever you're looking at
@@ -1219,46 +1225,6 @@
     room.style.height = `${Math.max(viewH(), document.documentElement.scrollHeight)}px`;
   }
 
-  /* ---------- Archives: every piece, in a tidy grid ---------- */
-
-  function initArchives() {
-    const grid = document.querySelector(".archives-grid");
-    const buttons = [...document.querySelectorAll(".archives-filter button")];
-    const status = (a) =>
-      a.available === 0 ? `<span class="sold-dot" aria-hidden="true"></span>Sold` : a.price != null ? money(a.price) : "Price on request";
-
-    grid.innerHTML = works
-      .map(
-        (a) => `
-        <li class="arc-item" data-sold="${a.available === 0}">
-          <a class="arc-link" href="piece.html?id=${encodeURIComponent(a.id)}">
-            <span class="arc-thumb"><span${a.mat ? ' class="arc-mat"' : ""}><img src="${esc(a.image)}" alt="" loading="lazy"></span></span>
-            <span class="arc-title">${esc(quote(a.title))}</span>
-            <span class="arc-meta">${details(editionLabel(a.edition), a.size, a.year)}</span>
-            <span class="arc-status">${status(a)}</span>
-          </a>
-        </li>`
-      )
-      .join("");
-    grid.querySelectorAll("a").forEach((link) => interceptLink(link));
-
-    const show = (filter) => {
-      grid.querySelectorAll(".arc-item").forEach((li) => {
-        const sold = li.dataset.sold === "true";
-        li.hidden = !(filter === "all" || (filter === "sold" ? sold : !sold));
-      });
-      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
-    };
-    buttons.forEach((b) =>
-      b.addEventListener("click", () => {
-        show(b.dataset.filter);
-        fitRoom();
-      })
-    );
-    show("all");
-    grid.querySelectorAll("img").forEach((img) => img.addEventListener("load", fitRoom));
-  }
-
   // After Stripe hands the buyer back: empty the cart only if the payment went
   // through; otherwise say so and keep the cart for another try.
   function initThanks() {
@@ -1280,9 +1246,8 @@
   const page = document.body.dataset.page;
   if (page === "thanks") initThanks();
   if (page === "piece") initPiece();
-  else if (page === "wall") initWall();
+  else if (page === "wall") initWall(document.body.dataset.show === "sold" ? works.filter((a) => a.available === 0) : works);
   else if (page === "checkout") initCheckout();
-  else if (page === "archives") initArchives();
   else initPage();
   initMenu();
   initCart();

@@ -10,9 +10,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya:ital,wght@0,500;1,500&family=Libre+Caslon+Text:wght@400&family=Pinyon+Script&display=swap">
   <link rel="stylesheet" href="assets/css/gallery.css">
 </head>
-<body data-page="archives">
+<body data-page="wall" data-show="sold">
   <div class="room">
-    <div class="wall"></div>
+    <div class="wall">
+      <main class="walk" aria-label="Sold work"></main>
+    </div>
     <div class="trim"></div>
     <div class="floor"><div class="floor-plane"></div></div>
   </div>
@@ -40,18 +42,7 @@
     </div>
   </header>
 
-  <main class="archives">
-    <header class="archives-head">
-      <h1>Archive</h1>
-      <div class="archives-filter" role="group" aria-label="Show">
-        <button type="button" data-filter="all" aria-pressed="true">All</button>
-        <button type="button" data-filter="available" aria-pressed="false">Available</button>
-        <button type="button" data-filter="sold" aria-pressed="false">Sold</button>
-      </div>
-    </header>
-    <ul class="archives-grid"></ul>
-  </main>
-
+  <p class="hint"></p>
   <div class="veil" aria-hidden="true"></div>
 
   <script src="assets/js/floor.js"></script>
